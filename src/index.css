@@ -6,6 +6,91 @@
 
 @layer base {
   :root {
+    /* Default dark mode for main site */
+    --background: 0 0% 2%;
+    --foreground: 30 20% 92%;
+
+    --card: 220 30% 5%;
+    --card-foreground: 30 20% 92%;
+
+    --popover: 220 30% 5%;
+    --popover-foreground: 30 20% 92%;
+
+    --primary: 14 100% 59%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 30% 8%;
+    --secondary-foreground: 30 20% 92%;
+
+    --muted: 220 20% 10%;
+    --muted-foreground: 30 10% 45%;
+
+    --accent: 0 0% 69%;
+    --accent-foreground: 0 0% 2%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 12%;
+    --input: 0 0% 12%;
+    --ring: 14 100% 59%;
+
+    --radius: 0.5rem;
+
+    --burgundy: 0 100% 11%;
+    --burgundy-light: 0 70% 22%;
+    --burgundy-glow: 0 90% 18%;
+    --navy: 225 60% 8%;
+    --navy-deep: 225 50% 4%;
+    --navy-mid: 225 50% 14%;
+    --silver: 0 0% 69%;
+    --coral: 14 100% 59%;
+    --coral-light: 14 85% 68%;
+  }
+
+  /* Light mode only for admin pages when .light class is present */
+  .light {
+    --background: 0 0% 99%;
+    --foreground: 225 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 225 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 225 25% 15%;
+
+    --primary: 14 85% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 225 15% 96%;
+    --secondary-foreground: 225 25% 20%;
+
+    --muted: 225 10% 92%;
+    --muted-foreground: 225 8% 50%;
+
+    --accent: 14 75% 65%;
+    --accent-foreground: 225 25% 15%;
+
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 225 15% 88%;
+    --input: 225 15% 88%;
+    --ring: 14 85% 55%;
+
+    --burgundy: 14 60% 25%;
+    --burgundy-light: 14 55% 35%;
+    --burgundy-glow: 14 65% 30%;
+    --navy: 225 40% 20%;
+    --navy-deep: 225 35% 15%;
+    --navy-mid: 225 30% 25%;
+    --silver: 225 15% 85%;
+    --coral: 14 85% 55%;
+    --coral-light: 14 75% 65%;
+  }
+
+  /* Dark mode for admin pages when .dark class is present (same as default) */
+  .dark {
     --background: 0 0% 2%;
     --foreground: 30 20% 92%;
 
@@ -56,6 +141,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Instrument Sans', sans-serif;
+    position: relative; /* Fix for framer-motion scroll warning */
   }
 
   h1, h2, h3, h4, h5, h6 {

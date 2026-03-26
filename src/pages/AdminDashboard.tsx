@@ -8,6 +8,7 @@ import {
   Clock, CheckCircle, XCircle, Loader2, Search, Filter,
   LayoutDashboard, ChevronDown
 } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type Booking = {
   id: string;
@@ -124,14 +125,17 @@ const AdminDashboard = () => {
               Admin <span className="italic text-primary">Dashboard</span>
             </h1>
           </div>
-          <motion.button
-            whileHover={{ x: 2 }}
-            onClick={handleLogout}
-            className="flex items-center gap-2 text-foreground/40 hover:text-primary font-body text-sm uppercase tracking-[0.15em] transition-colors"
-          >
-            <LogOut size={16} />
-            Sign Out
-          </motion.button>
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <motion.button
+              whileHover={{ x: 2 }}
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-foreground/40 hover:text-primary font-body text-sm uppercase tracking-[0.15em] transition-colors"
+            >
+              <LogOut size={16} />
+              Sign Out
+            </motion.button>
+          </div>
         </div>
       </header>
 

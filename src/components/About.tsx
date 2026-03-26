@@ -123,7 +123,7 @@ export const About = () => {
               <img
                 src={portrait1}
                 alt="Professional portrait"
-                className="w-full h-full object-cover cinematic-filter transition-transform duration-[1.5s] group-hover:scale-110"
+                className="w-full h-full object-cover cinematic-filter transition-transform duration-&lsqb;1.5s&rsqb; group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent" />
               {/* Corner accents */}

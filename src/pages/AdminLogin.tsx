@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Lock, Mail, Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -49,6 +50,11 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-6">
+      {/* Theme Toggle in top right */}
+      <div className="absolute top-6 right-6">
+        <ThemeToggle />
+      </div>
+      
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
