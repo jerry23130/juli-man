@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Decode JWT</title>
+</head>
+<body>
+    <h1>JWT Decoder</h1>
+    <div id="result"></div>
+    
+    <script>
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuY2lqcmZ4Z2Robmd1ZnV2c3p2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNzI4MDUsImV4cCI6MjA4OTk0ODgwNX0.JJ_mdLWkgl--6wPPfo9-ObWgyCXN2kmdlt7yKsbIidk";
+        
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            document.getElementById('result').innerHTML = `
+                <h2>JWT Payload:</h2>
+                <pre>${JSON.stringify(payload, null, 2)}</pre>
+                <h2>Expected Supabase URL:</h2>
+                <p>https://${payload.ref}.supabase.co</p>
+            `;
+        } catch (err) {
+            document.getElementById('result').innerHTML = `Error: ${err.message}`;
+        }
+    </script>
+</body>
+</html>

@@ -20,11 +20,15 @@ export const SmoothScroll = () => {
 
     // Dispatch native scroll event so framer-motion useScroll works
     let lastScrollTime = 0;
+    let isDispatching = false;
     lenis.on("scroll", () => {
+      if (isDispatching) return;
       const now = Date.now();
       if (now - lastScrollTime > 16) { // Throttle to ~60fps
+        isDispatching = true;
         window.dispatchEvent(new Event("scroll"));
         lastScrollTime = now;
+        setTimeout(() => { isDispatching = false; }, 10);
       }
     });
 

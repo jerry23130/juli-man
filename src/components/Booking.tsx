@@ -34,14 +34,25 @@ export const Booking = () => {
     };
 
     try {
-      const { error } = await supabase.from("bookings").insert([booking]);
-      if (error) throw error;
-
+      console.log("Attempting to insert booking:", booking);
+      const { data, error } = await supabase.from("bookings").insert([booking]);
+      
+      if (error) {
+        console.error("Supabase error details:", {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        throw error;
+      }
+      
+      console.log("Booking inserted successfully:", data);
       setSubmitted(true);
       toast.success("Booking request sent! We'll get back to you soon.");
-    } catch (err) {
+    } catch (err: any) {
       console.error("Booking error:", err);
-      toast.error("Something went wrong. Please try again.");
+      toast.error(err?.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

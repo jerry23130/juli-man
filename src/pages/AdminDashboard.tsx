@@ -95,6 +95,8 @@ const AdminDashboard = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    // Clear mock session
+    localStorage.removeItem('mockAdminUser');
     navigate("/admin");
   };
 

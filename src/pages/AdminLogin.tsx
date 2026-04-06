@@ -25,6 +25,11 @@ const AdminLogin = () => {
 
       if (error) throw error;
 
+      // For mock client, store session in localStorage
+      if (data.user) {
+        localStorage.setItem('mockAdminUser', JSON.stringify(data.user));
+      }
+
       // Check if user has admin role
       const { data: roles, error: roleError } = await supabase
         .from("user_roles")
