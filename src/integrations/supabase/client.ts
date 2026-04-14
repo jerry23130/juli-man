@@ -8,28 +8,24 @@ const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
-// Create supabase client with fallback to mock when unreachable
-export const supabase = await (async () => {
+let supabaseClient: any = null;
+
+async function createSupabaseClient() {
+  if (supabaseClient) {
+    return supabaseClient;
+  }
+
   try {
     // Try to create real Supabase client
     if (SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY && SUPABASE_URL.includes('supabase.co')) {
-      // Test if Supabase is reachable
-      const testResponse = await fetch(`${SUPABASE_URL}/rest/v1/`, {
-        method: 'HEAD',
-        mode: 'no-cors'
-      }).catch(() => null);
-      
-      if (!testResponse) {
-        throw new Error('Supabase URL not accessible');
-      }
-      
-      return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+      supabaseClient = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
         auth: {
           storage: localStorage,
           persistSession: true,
           autoRefreshToken: false, // Disable auto refresh to prevent lock issues
         }
       });
+      return supabaseClient;
     } else {
       throw new Error('Invalid Supabase configuration');
     }
@@ -38,11 +34,12 @@ export const supabase = await (async () => {
     // Import and use mock client
     try {
       const { supabase: mockSupabase } = await import('./mock-client');
-      return mockSupabase;
+      supabaseClient = mockSupabase;
+      return supabaseClient;
     } catch (mockError) {
       console.error('Failed to load mock client:', mockError);
       // Return a minimal fallback client
-      return {
+      supabaseClient = {
         auth: {
           signInWithPassword: async () => ({ data: null, error: { message: 'Client not available' } }),
           signOut: async () => ({ error: null }),
@@ -62,6 +59,29 @@ export const supabase = await (async () => {
           })
         })
       };
+      return supabaseClient;
     }
   }
-})();
+}
+
+// Export a proxy that lazily initializes the client
+export const supabase = new Proxy({} as any, {
+  get(target, prop) {
+    if (!supabaseClient) {
+      // Initialize synchronously for basic operations, async for others
+      if (SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY && SUPABASE_URL.includes('supabase.co')) {
+        supabaseClient = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+          auth: {
+            storage: localStorage,
+            persistSession: true,
+            autoRefreshToken: false,
+          }
+        });
+      } else {
+        // Return minimal client for build time
+        return () => ({ data: [], error: null });
+      }
+    }
+    return supabaseClient[prop];
+  }
+});
