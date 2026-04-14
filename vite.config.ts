@@ -21,16 +21,6 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist",
     sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ["react", "react-dom"],
-          supabase: ["@supabase/supabase-js"],
-          ui: ["@radix-ui"],
-          three: ["three", "@react-three/fiber", "@react-three/drei"],
-        },
-      },
-    },
   },
   define: {
     global: "globalThis",
