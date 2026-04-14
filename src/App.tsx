@@ -11,45 +11,34 @@ import AdminDashboard from "./pages/AdminDashboard.tsx";
 
 const queryClient = new QueryClient();
 
-const AdminThemeProvider = ({ children }: { children: React.ReactNode }) => (
-  <ThemeProvider
-    attribute="class"
-    defaultTheme="system"
-    enableSystem
-    disableTransitionOnChange
-  >
-    {children}
-  </ThemeProvider>
-);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route 
-            path="/admin" 
-            element={
-              <AdminThemeProvider>
-                <AdminLogin />
-              </AdminThemeProvider>
-            } 
-          />
-          <Route 
-            path="/admin/dashboard" 
-            element={
-              <AdminThemeProvider>
-                <AdminDashboard />
-              </AdminThemeProvider>
-            } 
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route 
+              path="/admin" 
+              element={<AdminLogin />}
+            />
+            <Route 
+              path="/admin/dashboard" 
+              element={<AdminDashboard />}
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
